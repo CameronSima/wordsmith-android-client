@@ -9,6 +9,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="WORD"
         android:textSize="50sp"
+        android:textColor="@color/word"
         android:gravity="center_horizontal"
         android:id="@+id/textView2"
         android:layout_gravity="center_horizontal"
@@ -21,14 +22,195 @@
         android:numColumns="4"
         android:textSize="50sp"
         android:gravity="bottom"
-        android:columnWidth="50dp"
+        android:columnWidth="30dp"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="20dp"
-        android:layout_alignParentBottom="true"
+        android:verticalSpacing="5dp"
         android:layout_width="fill_parent"
-        android:layout_height="181dp" >
+        android:layout_height="145dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="42dp">
 
     </GridView>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/textView2"
+        android:layout_toLeftOf="@+id/textView2"
+        android:id="@+id/linearLayout"
+        android:layout_above="@+id/textView2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="WORD"
+            android:id="@+id/word1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="PENIS"
+            android:id="@+id/textView3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="ANALYSIS"
+            android:id="@+id/textView4" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="BE"
+            android:id="@+id/textView5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="TEST"
+            android:id="@+id/textView6" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="LONG"
+            android:id="@+id/textView7" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="MERIDIAN"
+            android:id="@+id/textView8" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="TOOTS"
+            android:id="@+id/textView9" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/linearLayout"
+        android:layout_above="@+id/textView2"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="14,980"
+            android:id="@+id/score1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="8970"
+            android:id="@+id/textView11" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="45,980"
+            android:id="@+id/textView12" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="90,560"
+            android:id="@+id/textView13" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="12,980"
+            android:id="@+id/textView14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="4390"
+            android:id="@+id/textView15" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="60,780"
+            android:id="@+id/textView16" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="18,560"
+            android:id="@+id/textView17" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/lettersGrid"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="SUBMIT"
+            android:id="@+id/button" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="SHUFFLE"
+            android:id="@+id/button2" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="BACK"
+            android:id="@+id/button3" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="TAKE SCORE"
+            android:textSize="11sp"
+            android:id="@+id/button4" />
+    </LinearLayout>
+
+
 
 
 </RelativeLayout>
