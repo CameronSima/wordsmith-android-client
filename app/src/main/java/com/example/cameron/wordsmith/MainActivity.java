@@ -1,15 +1,16 @@
 package com.example.cameron.wordsmith;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.widget.TextViewCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -24,13 +25,6 @@ public class MainActivity extends Activity {
     private static final String FORMAT = "%2d:%02d";
 
     int seconds, minutes;
-
-    generateLetterset letterset = new generateLetterset();
-
-//    static final String[] numbers = new String[]{
-//
-//            letterset;
-//}
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -59,9 +53,8 @@ public class MainActivity extends Activity {
             }
         }.start();
 
-
+//        Letterset buttons logic
         gridView = (GridView) findViewById(R.id.lettersGrid);
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 R.layout.letter_text_view_item, generateLetterset.main());
 
@@ -71,8 +64,12 @@ public class MainActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                Toast.makeText(getApplicationContext(),
-                        ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+                TextView wordConstructor = (TextView) findViewById(R.id.wordConstructor);
+                wordConstructor.setText(wordConstructor.getText().toString() + ((TextView) v).getText());
+
+                ((TextView) v).setClickable(true);
+                ((TextView) v).setTextColor(Color.parseColor("#FF0000"));
+
 
             }
 
@@ -81,6 +78,23 @@ public class MainActivity extends Activity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+
+    public void Back(View v) {
+
+        TextView wordConstructor = (TextView) findViewById(R.id.wordConstructor);
+        String word = wordConstructor.getText().toString();
+        char lastLetter = word.charAt(word.length());
+        wordConstructor.setText(word.substring(0, wordConstructor.length()-1));
+
+        gridView = (GridView) findViewById(R.id.lettersGrid);
+
+        for (int i = 0; i < gridView.getChildCount(); i++) {
+            TextView letter = (TextView) gridView.getChildAt(i);
+            if (lastLetter = letter.getText())
+        }
+
     }
 
     @Override
