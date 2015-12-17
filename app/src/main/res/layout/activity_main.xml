@@ -47,49 +47,49 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="PENIS"
-            android:id="@+id/textView3" />
+            android:id="@+id/word2" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="ANALYSIS"
-            android:id="@+id/textView4" />
+            android:id="@+id/word3" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="BE"
-            android:id="@+id/textView5" />
+            android:id="@+id/word4" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="TEST"
-            android:id="@+id/textView6" />
+            android:id="@+id/word5" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="LONG"
-            android:id="@+id/textView7" />
+            android:id="@+id/word6" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="MERIDIAN"
-            android:id="@+id/textView8" />
+            android:id="@+id/word7" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="TOOTS"
-            android:id="@+id/textView9" />
+            android:id="@+id/word8" />
     </LinearLayout>
 
     <LinearLayout
@@ -114,49 +114,49 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="8970"
-            android:id="@+id/textView11" />
+            android:id="@+id/score2" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="45,980"
-            android:id="@+id/textView12" />
+            android:id="@+id/score3" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="90,560"
-            android:id="@+id/textView13" />
+            android:id="@+id/score4" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="12,980"
-            android:id="@+id/textView14" />
+            android:id="@+id/score5" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="4390"
-            android:id="@+id/textView15" />
+            android:id="@+id/score6" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="60,780"
-            android:id="@+id/textView16" />
+            android:id="@+id/score7" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="18,560"
-            android:id="@+id/textView17" />
+            android:id="@+id/score8" />
     </LinearLayout>
 
     <LinearLayout
@@ -175,21 +175,21 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="SUBMIT"
-            android:id="@+id/button" />
+            android:id="@+id/submit" />
 
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="SHUFFLE"
-            android:id="@+id/button2" />
+            android:id="@+id/shuffle" />
 
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="BACK"
-            android:id="@+id/button3" />
+            android:id="@+id/back" />
 
         <Button
             android:layout_width="0dp"
@@ -197,7 +197,7 @@
             android:layout_height="wrap_content"
             android:text="TAKE SCORE"
             android:textSize="11sp"
-            android:id="@+id/button4" />
+            android:id="@+id/takeScore" />
     </LinearLayout>
 
     <TextView
@@ -208,9 +208,9 @@
         android:id="@+id/textView"
         android:textColor="@color/gold"
         android:paddingLeft="20dp"
-        android:layout_alignTop="@+id/textView10"
-        android:layout_toLeftOf="@+id/textView10"
-        android:layout_toStartOf="@+id/textView10" />
+        android:layout_alignTop="@+id/scoreTotal"
+        android:layout_toLeftOf="@+id/scoreTotal"
+        android:layout_toStartOf="@+id/scoreTotal" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -218,17 +218,17 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="128,907"
         android:textColor="@color/gold"
-        android:id="@+id/textView10"
-        android:layout_below="@+id/textView18"
-        android:layout_alignRight="@+id/textView18"
-        android:layout_alignEnd="@+id/textView18" />
+        android:id="@+id/scoreTotal"
+        android:layout_below="@+id/timer"
+        android:layout_alignRight="@+id/timer"
+        android:layout_alignEnd="@+id/timer" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="0:61"
-        android:id="@+id/textView18"
+        android:id="@+id/timer"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -241,7 +241,7 @@
         android:textSize="50sp"
         android:textColor="@color/word"
         android:gravity="center_horizontal"
-        android:id="@+id/textView2"
+        android:id="@+id/wordConstructor"
         android:layout_gravity="center_horizontal"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

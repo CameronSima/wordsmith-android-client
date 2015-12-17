@@ -3,6 +3,7 @@ package com.example.cameron.wordsmith;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,13 +15,23 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends Activity {
 
     GridView gridView;
+    TextView timerText;
+    private static final String FORMAT = "%2d:%02d";
 
-    static final String[] numbers = new String[]{
-            "A", "B", "C", "D", "E",
-            "F", "G", "H"};
+    int seconds, minutes;
+
+    generateLetterset letterset = new generateLetterset();
+
+//    static final String[] numbers = new String[]{
+//
+//            letterset;
+//}
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -29,15 +40,30 @@ public class MainActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+        timerText = (TextView) findViewById(R.id.timer);
+
+        new CountDownTimer(120000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                timerText.setText(""+String.format(FORMAT,
+
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+            }
+
+            public void onFinish() {
+                timerText.setText("Game Over!");
+            }
+        }.start();
+
 
         gridView = (GridView) findViewById(R.id.lettersGrid);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.letter_text_view_item, numbers);
+                R.layout.letter_text_view_item, generateLetterset.main());
 
         gridView.setAdapter(adapter);
 
