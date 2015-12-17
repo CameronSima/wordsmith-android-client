@@ -83,16 +83,24 @@ public class MainActivity extends Activity {
 
     public void Back(View v) {
 
+
         TextView wordConstructor = (TextView) findViewById(R.id.wordConstructor);
         String word = wordConstructor.getText().toString();
-        char lastLetter = word.charAt(word.length());
+
+        if (word.length() < 1) {
+            return;
+        }
+        char lastLetter = word.charAt(word.length()-1);
         wordConstructor.setText(word.substring(0, wordConstructor.length()-1));
 
         gridView = (GridView) findViewById(R.id.lettersGrid);
 
         for (int i = 0; i < gridView.getChildCount(); i++) {
             TextView letter = (TextView) gridView.getChildAt(i);
-            if (lastLetter = letter.getText())
+            if (lastLetter == letter.getText().charAt(0)) {
+                letter.setTextColor(Color.parseColor("#0000FF"));
+                letter.setClickable(false);
+            }
         }
 
     }
