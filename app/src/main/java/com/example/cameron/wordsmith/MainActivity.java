@@ -21,6 +21,8 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONArray;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -45,7 +47,7 @@ public class MainActivity extends Activity  {
     public ArrayAdapter<String> adapter;
     private ArrayList<String> stringList;
     private static final String FORMAT = "%2d:%02d";
-    private static final String[] LETTERSET = generateLetterset.main();
+    public static JSONArray LETTERSET = generateLetterset.main();
 
     int seconds, minutes;
     private HashMap<String, Integer> wordsScores = new HashMap<>();
@@ -79,26 +81,9 @@ public class MainActivity extends Activity  {
             }
         }.start();
 
-//        Letterset buttons logic
-        stringList = new ArrayList<>(Arrays.asList(LETTERSET));
-        gridView = (GridView) findViewById(R.id.lettersGrid);
-        adapter = new ArrayAdapter<String>(this,
-                R.layout.letter_text_view_item, stringList);
-        gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-
-                TextView wordConstructor = (TextView) findViewById(R.id.wordConstructor);
-                wordConstructor.setText(wordConstructor.getText().toString() + ((TextView) v).getText());
-
-                 v.setClickable(true);
-                ((TextView) v).setTextColor(Color.parseColor("#FF0000"));
-
-            }
-
-        });
-
+        // Initialize the letterset board with letters. Must be
+        // altered to allow multiplayer functionality.
+        populate();
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -128,6 +113,31 @@ public class MainActivity extends Activity  {
             }
         }
     }
+    public void populate(String[] opponentLetters) {
+        if (args != null) {
+            // If the player is joining another player's game,
+            // he will inherit that players' letter set.
+            LETTERSET = opponentLetters;
+        }
+        stringList = new ArrayList<>(Arrays.asList(LETTERSET));
+        gridView = (GridView) findViewById(R.id.lettersGrid);
+        adapter = new ArrayAdapter<>(this,
+                R.layout.letter_text_view_item, stringList);
+        gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                TextView wordConstructor = (TextView) findViewById(R.id.wordConstructor);
+                wordConstructor.setText(wordConstructor.getText().toString() + ((TextView) v).getText());
+
+                v.setClickable(true);
+                ((TextView) v).setTextColor(Color.parseColor("#FF0000"));
+
+            }
+
+        });
+    }
     public void Shuffle(View v) {
 
         Collections.shuffle(stringList);
@@ -150,10 +160,9 @@ public class MainActivity extends Activity  {
         }
     }
     public void endGame(View v) {
-        int score = 0;
-        for (Integer value : wordsScores.values()) {
-            score += value;
-        }
+        TextView scoreBox = (TextView) findViewById(R.id.scoreTotal);
+        String finalScore = scoreBox.getText().toString();
+
 
     }
     public boolean checkDictionary(String word) {
@@ -189,7 +198,6 @@ public class MainActivity extends Activity  {
             } catch(InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
-
         }
         wordView.setText("");
         clearLetterBoard();

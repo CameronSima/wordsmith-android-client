@@ -1,5 +1,7 @@
 package com.example.cameron.wordsmith;
 
+import org.json.JSONArray;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Arrays;
@@ -56,13 +58,16 @@ public class generateLetterset
         return letterset;
     }
 
-    public static String[] ensureVowel(String[] letterset) {
+    public static JSONArray ensureVowel(String[] letterset) {
         for (int i = 0; i < vowels.length; ++i) {
             if (Arrays.asList(letterset).contains(vowels[i])) {
                 return letterset;
             }
         }
-        return ensureVowel(getLettsArr());
+        JSONArray letterSetAsJSON = new JSONArray(
+                Arrays.asList(ensureVowel(
+                        getLettsArr())));
+        return letterSetAsJSON;
     }
 
 
