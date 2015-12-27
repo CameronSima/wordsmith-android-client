@@ -250,6 +250,19 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Waiting for opponent..."
+        android:id="@+id/messageBox"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignBottom="@+id/words"
+        android:layout_centerHorizontal="true" /><!--android:layout_toLeftOf="@+id/textView"-->
+        <!--android:layout_toStartOf="@+id/textView"-->
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
 

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 
@@ -47,7 +48,7 @@ public class MainActivity extends Activity  {
     public ArrayAdapter<String> adapter;
     private ArrayList<String> stringList;
     private static final String FORMAT = "%2d:%02d";
-    public static JSONArray LETTERSET = generateLetterset.main();
+    public static String[] LETTERSET = generateLetterset.main();
 
     int seconds, minutes;
     private HashMap<String, Integer> wordsScores = new HashMap<>();
@@ -113,11 +114,11 @@ public class MainActivity extends Activity  {
             }
         }
     }
-    public void populate(String[] opponentLetters) {
-        if (args != null) {
+    public void populate(String[]... opponentLetters) {
+        if (opponentLetters != null) {
             // If the player is joining another player's game,
             // he will inherit that players' letter set.
-            LETTERSET = opponentLetters;
+            LETTERSET = opponentLetters[0];
         }
         stringList = new ArrayList<>(Arrays.asList(LETTERSET));
         gridView = (GridView) findViewById(R.id.lettersGrid);

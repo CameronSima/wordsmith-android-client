@@ -40,6 +40,8 @@ public class SocketConnection extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    TextView messageBox = (TextView) getActivity().findViewById(R.id.messageBox);
+
     {
         try {
             socket = IO.socket("http://wordsmith.es/multiplayer");
@@ -76,37 +78,76 @@ public class SocketConnection extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        socket.on("start", start);
+        socket.on("endGame", endGame);
         socket.on("message", message);
         socket.on("getLetterSet", getLetterSet);
-
-
     }
 
-    private Emitter.Listener getLetterSet = new Emitter.Listener() {
+    private Emitter.Listener getGetLetterSet = new Emitter.Listener() {
         @Override
-        public void call(final Object... args) {
+        public void call(Object... args) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
                     JSONArray opponentLetters;
                     try {
-                        MainActivity.LETTERSET = data.getJSONArray("letterSet");
-                } catch (JSONException e) {
+                        MainActivity.LETTERSET = (String[]) data.get("letterSet");
+                    } catch (JSONException e) {
                         return;
                     }
+
+                }
             });
-
-            }
-
         }
-    }
+    };
+
     private Emitter.Listener message = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+            public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    messageBox.setText(data);
 
+                }
+            });
         }
-    }
+    };
+    private Emitter.Listener endGame = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject results = (JSONObject) args[0];
+                    if (results.tie) {
+                        displayTiescreen(results);
+                    } else {
+                        displayWinnerScreen(results);
+                    }
+
+                }
+            });
+        }
+    };
+    private Emitter.Listener start = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    MainActivity.start();
+                }
+            });
+        }
+
+
+    };
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -153,5 +194,6 @@ public class SocketConnection extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-}
+    };
+
+};

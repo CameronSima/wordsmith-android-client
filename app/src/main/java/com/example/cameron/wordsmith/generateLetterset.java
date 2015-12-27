@@ -47,6 +47,7 @@ public class generateLetterset
     }
 
     public static String[] main() {
+
         return ensureVowel(getLettsArr());
     }
 
@@ -58,12 +59,15 @@ public class generateLetterset
         return letterset;
     }
 
-    public static JSONArray ensureVowel(String[] letterset) {
+    public static String[] ensureVowel(String[] letterset) {
         for (int i = 0; i < vowels.length; ++i) {
             if (Arrays.asList(letterset).contains(vowels[i])) {
                 return letterset;
             }
         }
+        return ensureVowel(letterset);
+    }
+    public static JSONArray lettsAsJSON() {
         JSONArray letterSetAsJSON = new JSONArray(
                 Arrays.asList(ensureVowel(
                         getLettsArr())));
