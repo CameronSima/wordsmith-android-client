@@ -75,8 +75,8 @@ public class SocketConnection extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
         }
         socket.on("start", start);
         socket.on("endGame", endGame);
@@ -84,14 +84,14 @@ public class SocketConnection extends Fragment {
         socket.on("getLetterSet", getLetterSet);
     }
 
-    private Emitter.Listener getGetLetterSet = new Emitter.Listener() {
+    private Emitter.Listener getLetterSet = new Emitter.Listener() {
         @Override
-        public void call(Object... args) {
+        public void call(final Object... args) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    JSONArray opponentLetters;
+
                     try {
                         MainActivity.LETTERSET = (String[]) data.get("letterSet");
                     } catch (JSONException e) {
@@ -105,12 +105,16 @@ public class SocketConnection extends Fragment {
 
     private Emitter.Listener message = new Emitter.Listener() {
         @Override
-        public void call(Object... args) {
+        public void call(final Object... args) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
             public void run() {
                     JSONObject data = (JSONObject) args[0];
-                    messageBox.setText(data);
+                    try {
+                        messageBox.setText(data.getString("message"));
+                    } catch (JSONException e) {
+                        return;
+                    }
 
                 }
             });
@@ -118,15 +122,17 @@ public class SocketConnection extends Fragment {
     };
     private Emitter.Listener endGame = new Emitter.Listener() {
         @Override
-        public void call(Object... args) {
+        public void call(final Object... args) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    JSONObject results = (JSONObject) args[0];
-                    if (results.tie) {
-                        displayTiescreen(results);
-                    } else {
-                        displayWinnerScreen(results);
+                    JSONObject data = (JSONObject) args[0];
+                    try {
+                        String tie = data.getString("tie");
+                        String winner = data.getString("winner");
+                        String loser = data.getString("loser");
+                    } catch (JSONException e) {
+                        return;
                     }
 
                 }
@@ -143,8 +149,6 @@ public class SocketConnection extends Fragment {
                 }
             });
         }
-
-
     };
 
 
@@ -194,6 +198,6 @@ public class SocketConnection extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    };
+    }
 
-};
+}

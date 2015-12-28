@@ -115,29 +115,32 @@ public class MainActivity extends Activity  {
         }
     }
     public void populate(String[]... opponentLetters) {
-        if (opponentLetters != null) {
+        try {
             // If the player is joining another player's game,
             // he will inherit that players' letter set.
             LETTERSET = opponentLetters[0];
+        } catch (ArrayIndexOutOfBoundsException e) {
+
+
+            stringList = new ArrayList<>(Arrays.asList(LETTERSET));
+            gridView = (GridView) findViewById(R.id.lettersGrid);
+            adapter = new ArrayAdapter<>(this,
+                    R.layout.letter_text_view_item, stringList);
+            gridView.setAdapter(adapter);
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View v,
+                                        int position, long id) {
+
+                    TextView wordConstructor = (TextView) findViewById(R.id.wordConstructor);
+                    wordConstructor.setText(wordConstructor.getText().toString() + ((TextView) v).getText());
+
+                    v.setClickable(true);
+                    ((TextView) v).setTextColor(Color.parseColor("#FF0000"));
+
+                }
+
+            });
         }
-        stringList = new ArrayList<>(Arrays.asList(LETTERSET));
-        gridView = (GridView) findViewById(R.id.lettersGrid);
-        adapter = new ArrayAdapter<>(this,
-                R.layout.letter_text_view_item, stringList);
-        gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-
-                TextView wordConstructor = (TextView) findViewById(R.id.wordConstructor);
-                wordConstructor.setText(wordConstructor.getText().toString() + ((TextView) v).getText());
-
-                v.setClickable(true);
-                ((TextView) v).setTextColor(Color.parseColor("#FF0000"));
-
-            }
-
-        });
     }
     public void Shuffle(View v) {
 
@@ -163,8 +166,9 @@ public class MainActivity extends Activity  {
     public void endGame(View v) {
         TextView scoreBox = (TextView) findViewById(R.id.scoreTotal);
         String finalScore = scoreBox.getText().toString();
-
-
+    }
+    public static void start() {
+        return;
     }
     public boolean checkDictionary(String word) {
         try {
