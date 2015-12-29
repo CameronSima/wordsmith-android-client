@@ -1,6 +1,7 @@
 package com.example.cameron.wordsmith;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +37,7 @@ public class SocketConnection extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+//    private static final String ARG_PARAM2 = "param2";
 
     private String Username;
     private Socket socket;
@@ -62,11 +66,11 @@ public class SocketConnection extends Fragment {
      * @return A new instance of fragment SocketConnection.
      */
     // TODO: Rename and change types and number of parameters
-    public static SocketConnection newInstance(String param1, String param2) {
+    public static SocketConnection newInstance(String username) {
         SocketConnection fragment = new SocketConnection();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM1, username);
+//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,11 +82,36 @@ public class SocketConnection extends Fragment {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
+        socket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         socket.on("start", start);
         socket.on("endGame", endGame);
         socket.on("message", message);
         socket.on("getLetterSet", getLetterSet);
+        socket.connect();
     }
+    public void joinGame() {
+        JsonObject credentials = new JsonObject();
+        credentials.addProperty("id", "UserId");
+        credentials.addProperty("username", "Username");
+        credentials.addProperty("letters", "letterSet");
+
+        socket.emit("joinGame", credentials);
+
+    }
+
+    private Emitter.Listener onConnectError = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            R.string.connection_error, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    };
 
     private Emitter.Listener getLetterSet = new Emitter.Listener() {
         @Override

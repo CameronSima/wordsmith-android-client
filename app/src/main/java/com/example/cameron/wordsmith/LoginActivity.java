@@ -3,7 +3,9 @@ package com.example.cameron.wordsmith;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -30,10 +32,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+
 
 /**
  * A login screen that offers login via email/password.
@@ -52,6 +64,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
+    private JSONObject RESPONSE;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -310,21 +323,39 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // TODO: attempt authentication against a network service.
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+                // Use the email address minus the '@' prefix as temp username.
+                String[] uList = (mEmail.split("@"));
+                String mUsername = uList[0];
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-//                    return pieces[1].equals(mPassword);
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    LoginActivity.this.finish();
+                Serverrequest request = new Serverrequest();
+                JSONObject response = request.getJSON(
+                        "http://10.0.2.2:3700/api/login", mUsername, mPassword);
+
+                if (response != null) {
+                    try {
+                        String username = response.getString("username");
+                        System.out.println(response);
+                        System.out.println(username);
+
+                        SharedPreferences prefs = getSharedPreferences("wordsmith", MODE_PRIVATE);
+                        prefs.edit().putString("username", username).apply();
+                        Intent intent = new Intent(LoginActivity.this, StartScreenActivity.class);
+                        startActivity(intent);
+                        LoginActivity.this.finish();
+                    } catch (JSONException e) {
+                        cancel(true);
+                    }
+
+                    // Account exists, return true
+                    return true;
+
+                } else {
+                    System.out.println("Null response");
                 }
+            } catch (IOException e) {
+                System.out.println("1");
+            } catch (JSONException e) {
+                System.out.println("2");
             }
 
             // TODO: register the new account here.
@@ -339,6 +370,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (success) {
                 finish();
             } else {
+
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
@@ -351,4 +383,5 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 }
+
 

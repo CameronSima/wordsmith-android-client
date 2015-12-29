@@ -1,6 +1,9 @@
 package com.example.cameron.wordsmith;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.io.IOException;
@@ -20,53 +23,59 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
+import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by cameron on 12/26/15.
  */
+
 public class Serverrequest {
-    public String getJSON(String url, int timeout) {
-        HttpURLConnection c = null;
-        try {
-            URL u = new URL(url);
-            c = (HttpURLConnection) u.openConnection();
-            c.setRequestMethod("GET");
-            c.setRequestProperty("Content-length", "0");
-            c.setUseCaches(false);
-            c.setAllowUserInteraction(false);
-            c.setConnectTimeout(timeout);
-            c.setReadTimeout(timeout);
-            c.connect();
-            int status = c.getResponseCode();
 
-            switch (status) {
-                case 200:
-                case 201:
-                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line+"\n");
-                    }
-                    br.close();
-                    return sb.toString();
-            }
 
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (c != null) {
-                try {
-                    c.disconnect();
-                } catch (Exception ex) {
-                    Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-                }
+    public JSONObject getJSON(String u, String username, String password)
+    throws IOException, JSONException {
+
+
+        JSONObject creds = new JSONObject();
+        creds.put("username", username);
+        creds.put("password", password);
+
+        URL url = new URL(u);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setReadTimeout(10000);
+        conn.setConnectTimeout(15000);
+        conn.setRequestMethod("POST");
+        conn.setDoInput(true);
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("Accept", "application/json");
+
+        OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+        writer.write(creds.toString());
+        writer.flush();
+
+        StringBuilder builder = new StringBuilder();
+        int httpRes = conn.getResponseCode();
+        if (httpRes == HttpsURLConnection.HTTP_OK) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    conn.getInputStream(), "UTF-8"
+            ));
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                builder.append(line + "\n");
             }
+            br.close();
+
+        } else {
+            System.out.println(conn.getResponseMessage());
         }
-        return null;
+        System.out.println(builder);
+        return new JSONObject(builder.toString());
     }
-}
+
+
+    }

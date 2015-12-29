@@ -2,6 +2,7 @@ package com.example.cameron.wordsmith;
 
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -50,7 +52,7 @@ public class MainActivity extends Activity  {
     private static final String FORMAT = "%2d:%02d";
     public static String[] LETTERSET = generateLetterset.main();
 
-    int seconds, minutes;
+    int seconds, minutes, numPlayers;
     private HashMap<String, Integer> wordsScores = new HashMap<>();
 
 
@@ -84,7 +86,14 @@ public class MainActivity extends Activity  {
 
         // Initialize the letterset board with letters. Must be
         // altered to allow multiplayer functionality.
-        populate();
+        Bundle b = getIntent().getExtras();
+        int numPlayers = b.getInt("players");
+        populate(numPlayers);
+
+        // get username.
+        SharedPreferences prefs = getSharedPreferences("wordsmith", MODE_PRIVATE);
+        TextView messageBox = (TextView) findViewById(R.id.messageBox);
+        messageBox.setText(prefs.getString("wordsmith", "username"));
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -114,14 +123,13 @@ public class MainActivity extends Activity  {
             }
         }
     }
-    public void populate(String[]... opponentLetters) {
-        try {
+    public void populate(int numPlayers) {
+        if (numPlayers == 2) {
             // If the player is joining another player's game,
             // he will inherit that players' letter set.
-            LETTERSET = opponentLetters[0];
-        } catch (ArrayIndexOutOfBoundsException e) {
-
-
+            return;
+//            LETTERSET = opponentLetters[0];
+        } else {
             stringList = new ArrayList<>(Arrays.asList(LETTERSET));
             gridView = (GridView) findViewById(R.id.lettersGrid);
             adapter = new ArrayAdapter<>(this,
